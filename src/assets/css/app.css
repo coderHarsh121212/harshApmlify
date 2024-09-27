@@ -3,7 +3,7 @@ body {
     color: white;
     margin: 0;
     padding: 0;
-    min-height: 100vh;
+    min-height: 90vh;
     display: flex;
     flex-direction: column;
     overflow: scroll;
@@ -54,6 +54,9 @@ body {
     width: 100%;
     background-color: rgba(0, 0, 0, 0.8) !important;
     padding: 10px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 /* Local video */
@@ -61,7 +64,7 @@ body {
     position: fixed;
     bottom: 70px;
     right: 10px;
-    width: 150px;
+    width: 350px;
     height: auto;
     border-radius: 8px;
     z-index: 1000;
