@@ -376,29 +376,29 @@ window.addEventListener('load', () => {
             };
         }
 
-        // document.getElementById('chat-input-btn').addEventListener('click', (e) => {
-        //     console.log("here: ", document.getElementById('chat-input').value)
-        //     if (document.getElementById('chat-input').value.trim()) {
-        //         sendMsg(document.getElementById('chat-input').value);
+        document.getElementById('chat-input-btn').addEventListener('click', (e) => {
+            console.log("here: ", document.getElementById('chat-input').value)
+            if (document.getElementById('chat-input').value.trim()) {
+                sendMsg(document.getElementById('chat-input').value);
 
-        //         setTimeout(() => {
-        //             document.getElementById('chat-input').value = '';
-        //         }, 50);
-        //     }
-        // });
+                setTimeout(() => {
+                    document.getElementById('chat-input').value = '';
+                }, 50);
+            }
+        });
 
         //Chat textarea
-        // document.getElementById('chat-input').addEventListener('keypress', (e) => {
-        //     if (e.which === 13 && (e.target.value.trim())) {
-        //         e.preventDefault();
+        document.getElementById('chat-input').addEventListener('keypress', (e) => {
+            if (e.which === 13 && (e.target.value.trim())) {
+                e.preventDefault();
 
-        //         sendMsg(e.target.value);
+                sendMsg(e.target.value);
 
-        //         setTimeout(() => {
-        //             e.target.value = '';
-        //         }, 50);
-        //     }
-        // });
+                setTimeout(() => {
+                    e.target.value = '';
+                }, 50);
+            }
+        });
 
 
         //When the video icon is clicked
