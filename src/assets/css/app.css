@@ -150,7 +150,9 @@
   padding: 10px;
   vertical-align: middle;
 }
-
+.navbar{
+    background: #000;
+}
 .custom-modal {
   display: none;
   position: fixed;
