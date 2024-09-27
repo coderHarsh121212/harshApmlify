@@ -38,7 +38,7 @@ window.addEventListener('load', () => {
             //set socketId
             const role = sessionStorage.getItem('role')
             socketId = socket.io.engine.id + "_##_" + role + "_##_";
-            document.getElementById('randomNumber').innerText = randomNumber;
+            // document.getElementById('randomNumber').innerText = randomNumber;
             document.getElementById('fullName').innerText = sessionStorage.getItem('username');
             document.getElementById('roleName').innerText = role;
             socket.emit('subscribe', {
@@ -468,23 +468,23 @@ window.addEventListener('load', () => {
 
 
         //When record button is clicked
-        document.getElementById('record').addEventListener('click', (e) => {
-            /**
-             * Ask user what they want to record.
-             * Get the stream based on selection and start recording
-             */
-            if (!mediaRecorder || mediaRecorder.state == 'inactive') {
-                h.toggleModal('recording-options-modal', true);
-            }
+        // document.getElementById('record').addEventListener('click', (e) => {
+        //     /**
+        //      * Ask user what they want to record.
+        //      * Get the stream based on selection and start recording
+        //      */
+        //     if (!mediaRecorder || mediaRecorder.state == 'inactive') {
+        //         h.toggleModal('recording-options-modal', true);
+        //     }
 
-            else if (mediaRecorder.state == 'paused') {
-                mediaRecorder.resume();
-            }
+        //     else if (mediaRecorder.state == 'paused') {
+        //         mediaRecorder.resume();
+        //     }
 
-            else if (mediaRecorder.state == 'recording') {
-                mediaRecorder.stop();
-            }
-        });
+        //     else if (mediaRecorder.state == 'recording') {
+        //         mediaRecorder.stop();
+        //     }
+        // });
 
 
         //When user choose to record screen
