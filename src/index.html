@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Multi-User Video Call</title>
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+      integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="assets/css/app.css" type="text/css" />
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script type="module" src="assets/js/rtc.js"></script>
+    <script type="module" src="assets/js/events.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/webrtc-adapter/7.3.0/adapter.min.js"
+      integrity="sha256-2qQheewaqnZlXJ3RJRghVUwD/3fD9HNqxh4C+zvgmF4="
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js"></script>
+    <script src="https://cdn.rawgit.com/yahoo/xss-filters/master/dist/xss-filters.js"></script>
+    <script src="assets/js/autolink.js"></script>
+  </head>
+
+  <body>
+    <nav class="navbar fixed-bottom bg-info rounded-0 d-print-none">
+      <div class="text-white">Video Call</div>
+
+      <div class="pull-right room-comm" hidden>
+        <span class="text-white mr-5">
+          Unique Identifier: <span id="randomNumber"></span>
+        </span>
+        <span class="text-white mr-5"> Name: <span id="fullName"></span> </span>
+        <span class="text-white mr-5"> Role: <span id="roleName"></span> </span>
+        <button
+          class="btn btn-sm rounded-0 btn-no-effect"
+          id="toggle-video"
+          title="Hide Video"
+        >
+          <i class="fa fa-video text-white"></i>
+        </button>
+
+        <button
+          class="btn btn-sm rounded-0 btn-no-effect"
+          id="toggle-mute"
+          title="Mute"
+        >
+          <i class="fa fa-microphone-alt text-white"></i>
+        </button>
+
+        <button
+          class="btn btn-sm rounded-0 btn-no-effect"
+          id="share-screen"
+          title="Share screen"
+        >
+          <i class="fa fa-desktop text-white"></i>
+        </button>
+
+        <button
+          class="btn btn-sm rounded-0 btn-no-effect"
+          id="record"
+          title="Record"
+        >
+          <i class="fa fa-dot-circle text-white"></i>
+        </button>
+
+        <button
+          class="btn btn-sm text-white pull-right btn-no-effect"
+          id="toggle-chat-pane"
+        >
+          <i class="fa fa-comment"></i>
+          <span
+            class="badge badge-danger very-small font-weight-lighter"
+            id="new-chat-notification"
+            hidden
+            >New</span
+          >
+        </button>
+
+        <button class="btn btn-sm rounded-0 btn-no-effect text-white">
+          <a href="/" class="text-white text-decoration-none"
+            ><i class="fa fa-sign-out-alt text-white" title="Leave"></i
+          ></a>
+        </button>
+      </div>
+    </nav>
+
+    <div class="container-fluid room-comm" hidden>
+      <div class="row">
+        <video
+          class="local-video mirror-mode"
+          id="local"
+          volume="0"
+          autoplay
+          muted
+        ></video>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12 main" id="main-section">
+          <div class="row mt-2 mb-2" id="videos"></div>
+        </div>
+
+        <div
+          class="col-md-3 chat-col d-print-none mb-2 bg-info"
+          id="chat-pane"
+          hidden
+        >
+          <div class="row">
+            <div class="col-12 text-center h2 mb-3">CHAT</div>
+          </div>
+
+          <div id="chat-messages"></div>
+
+          <form>
+            <div class="input-group mb-3">
+              <textarea
+                id="chat-input"
+                class="form-control rounded-0 chat-box border-info"
+                rows="3"
+                placeholder="Type here..."
+              ></textarea>
+              <div class="input-group-append" id="chat-input-btn">
+                <button
+                  type="button"
+                  class="btn btn-dark rounded-0 border-info btn-no-effect"
+                >
+                  Send
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const roomid = urlParams.get("room");
+        const userid = urlParams.get("id");
+        if (roomid && userid) {
+          fetch(`https://amplifybe-1.onrender.com/api/user-role/${userid}`)
+            .then((response) => {
+              if (!response.ok) {
+                throw new Error(
+                  "API request failed with status ${response.status}"
+                );
+              }
+              return response.json();
+            })
+            .then((data) => {
+              if (data && data.role && data.name) {
+                sessionStorage.setItem("room", roomid);
+                sessionStorage.setItem("username", data?.name);
+                sessionStorage.setItem("role", data?.role);
+                document.getElementById("fullName").textContent = data?.name;
+                document.getElementById("roleName").textContent = data?.role;
+                document.querySelector(".room-comm").hidden = false;
+                initMeeting(roomid, data?.name, data?.role, data);
+              } else {
+                throw new Error("Invalid user role data received from API");
+              }
+            })
+            .catch((error) => {
+              console.error("Error fetching user role:", error);
+              alert(
+                "Failed to fetch user role. Please check the URL or try again later."
+              );
+            });
+        } else {
+          console.error("Missing roomid or userid in the URL");
+          alert(
+            "Room ID or User ID is missing in the URL. Please ensure the correct URL."
+          );
+        }
+      });
+
+      function initMeeting(roomid, username, role, permissions) {
+        console.log(
+          "Initializing meeting for room: ${roomid}, user: ${username}, role: ${role}"
+        );
+
+        console.log("User Permissions: ", permissions);
+
+        if (permissions.CanScreenshare) {
+          console.log("User can screen share");
+          document.getElementById("share-screen").style.display = "inline";
+        }
+
+        if (!permissions.CanTalk) {
+          console.log("User cannot talk");
+
+          document.getElementById("toggle-mute").disabled = true;
+        }
+      }
+    </script>
+  </body>
+</html>
