@@ -48,7 +48,7 @@ body {
 
 /* Bottom navbar */
 .navbar.fixed-bottom {
-    position: relative;
+    position: absolute;
     bottom: 0;
     width: 100%;
     background-color: rgba(0, 0, 0, 0.8) !important;
