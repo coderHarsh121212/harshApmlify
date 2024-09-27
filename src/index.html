@@ -33,7 +33,7 @@
   </head>
 
   <body>
-    <nav class="navbar fixed-top  rounded-0 d-print-none">
+    <nav class="navbar fixed-top rounded-0 d-print-none">
       <!-- <div class="text-white">Video Call</div> -->
 
       <div class="pull-right room-comm" hidden>
@@ -71,7 +71,7 @@
           id="record"
           title="Record"
         > -->
-          <!-- <i class="fa fa-dot-circle text-white"></i>
+        <!-- <i class="fa fa-dot-circle text-white"></i>
         </button> -->
 
         <!-- <button
@@ -164,6 +164,7 @@
                 sessionStorage.setItem("room", roomid);
                 sessionStorage.setItem("username", data?.name);
                 sessionStorage.setItem("role", data?.role);
+                sessionStorage.setItem("muteother", data?.CanManagerMuteForAll);
                 document.getElementById("fullName").textContent = data?.name;
                 document.getElementById("roleName").textContent = data?.role;
                 document.querySelector(".room-comm").hidden = false;
