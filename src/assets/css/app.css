@@ -220,11 +220,11 @@ body {
   }
 
   .local-video {
-    bottom: 8.5rem;
-  right: 1rem;
-  position: fixed;
-  width: 25vw;
-  z-index: 1000;
+    bottom: 7.5rem;
+    right: 1rem;
+    position: fixed;
+    width: 45vw;
+    z-index: 1000;
   }
 }
 
@@ -233,11 +233,11 @@ body {
     width: 50%;
     z-index: 1000;
   }
-  .local-video {
+  /* .local-video {
     bottom: 8.5rem;
   right: 1rem;
   position: fixed;
   width: 25vw;
   z-index: 1000;
-  }
+  } */
 }
