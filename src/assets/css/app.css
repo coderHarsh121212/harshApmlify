@@ -220,7 +220,7 @@ body {
   }
 
   .local-video {
-    bottom: 3.5rem;
+    bottom: 8.5rem;
   right: 1rem;
   position: fixed;
   width: 25vw;
@@ -232,5 +232,12 @@ body {
   .card {
     width: 50%;
     z-index: 1000;
+  }
+  .local-video {
+    bottom: 8.5rem;
+  right: 1rem;
+  position: fixed;
+  width: 25vw;
+  z-index: 1000;
   }
 }
