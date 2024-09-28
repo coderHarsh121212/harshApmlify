@@ -209,16 +209,18 @@ window.addEventListener("load", () => {
         let str = e.streams[0];
         if (document.getElementById(`${partnerName}-video`)) {
           document.getElementById(`${partnerName}-video`).srcObject = str;
-        } else {
+        } else if (!isObserver(partnerName)) {
+          newVid.style.display = "none";
           //video elem
           let newVid = document.createElement("video");
           newVid.id = `${partnerName}-video`;
-        //   console.log("This is a dta",{data});
+          //   console.log("This is a dta",{data});
           newVid.srcObject = str;
           newVid.autoplay = true;
           newVid.className = "remote-video";
           if (isObserver(partnerName)) {
             newVid.style.display = "none";
+          } else {
           }
           //video controls elements
           let controlDiv = document.createElement("div");
