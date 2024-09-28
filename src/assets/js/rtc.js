@@ -213,7 +213,7 @@ window.addEventListener("load", () => {
           //video elem
           let newVid = document.createElement("video");
           newVid.id = `${partnerName}-video`;
-          console.log("This is a dta",{data});
+        //   console.log("This is a dta",{data});
           newVid.srcObject = str;
           newVid.autoplay = true;
           newVid.className = "remote-video";
