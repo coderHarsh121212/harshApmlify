@@ -220,7 +220,11 @@ body {
   }
 
   .local-video {
-    width: 40vw;
+    bottom: 3.5rem;
+  right: 1rem;
+  position: fixed;
+  width: 25vw;
+  z-index: 1000;
   }
 }
 
