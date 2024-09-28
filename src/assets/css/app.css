@@ -101,7 +101,7 @@ body {
 }
 .local-video {
   bottom: 2.5rem;
-  right: 0;
+  right: 1rem;
   position: fixed;
   width: 15vw;
   z-index: 1000;
